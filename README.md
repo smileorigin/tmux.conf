@@ -72,11 +72,12 @@ t       显示时间
 ```
 
 ## ssh config
-配合 ssh config 即可轻松的自动恢复会话，编辑`~/.ssh/config`，改为自己的配置，保存后执行`ssh work`，即可自动连接到服务器（使用 ssh config 前，先执行`ssh-copy-id root@11.22.33.55 拷贝公钥到服务器上，后续即可免密登录服务器`）
+配合 ssh config 即可轻松的自动恢复会话，编辑`~/.ssh/config`，改为自己的配置，保存后执行`ssh work`，即可自动连接到服务器（使用 ssh config 前，先执行`ssh-copy-id root@11.22.33.55 拷贝公钥到服务器上，后续即可免密登录服务器`）. 
+tmux 默认会同步同一个会话的操作到所有会话连接的终端窗口中，这种同步机制，限制了窗口的大小为最小的会话连接。因此当你开一个大窗口去连接会话时，实际的窗口将自动调整为最小的那个会话连接的窗口，终端剩余的空间将填充排列整齐的小圆点，因此可以在连接会话时断开其他会话 `tmux a -d`
 ```bash
 Host work
     HostName 11.22.33.55
     User root
     RequestTTY yes
-    RemoteCommand (tmux a || tmux)
+    RemoteCommand (tmux a -d || tmux)
 ```
